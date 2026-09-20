@@ -1,30 +1,30 @@
-// js/canvas.js - Visual Editor Module
-console.log("Canvas module loaded");
+// js/canvas.js - Perfect A4 Canvas & Image Fitting Module
+console.log("Professional Canvas Module Loaded");
 
 const EditorCanvas = {
     canvas: null,
 
     init: function() {
-        // કેનવાસ તૈયાર કરો
+        // A4 Size Proportion Setup (800 x 1131 pixels)
         this.canvas = new fabric.Canvas('mainEditorCanvas', {
             width: 800,  
-            height: 1123, 
-            backgroundColor: '#1a1a1a' 
+            height: 1131, 
+            backgroundColor: '#092029' // MAHAN Theme Dark Background
         });
         
         this.bindEvents();
     },
 
     bindEvents: function() {
-        // લખાણ ઉમેરવા માટેનું બટન
+        // Text Overlay Button
         const btnAddText = document.getElementById('btnAddText');
         if(btnAddText) {
             btnAddText.addEventListener('click', () => {
                 const text = new fabric.IText('અહીં લખાણ ટાઈપ કરો...', {
-                    left: 50, 
-                    top: 100, 
-                    fill: '#ff8c00', // ઓરેન્જ કલર
-                    fontSize: 40, 
+                    left: 100, 
+                    top: 150, 
+                    fill: '#ff8c00', // Orange Accent Color
+                    fontSize: 36, 
                     editable: true
                 });
                 this.canvas.add(text);
@@ -32,35 +32,48 @@ const EditorCanvas = {
                 this.canvas.renderAll();
             });
         }
+
+        // Set Background Color Button
+        const btnApplyBg = document.getElementById('btnApplyBg');
+        if(btnApplyBg) {
+            btnApplyBg.addEventListener('click', () => {
+                this.canvas.setBackgroundColor('#113642', this.canvas.renderAll.bind(this.canvas));
+            });
+        }
     },
     
-    // ફોટો અપલોડ થાય ત્યારે તેને કેનવાસ પર સેટ કરવાનું ફંક્શન
+    // ફોટો અપલોડ થાય એટલે A4 સાઈઝ અને બેકગ્રાઉન્ડ કલર સાથે પરફેક્ટ ગોઠવણી
     loadPageToCanvas: function(imageSrc) {
         fabric.Image.fromURL(imageSrc, (img) => {
             if (!img) {
-                alert("ફોટો લોડ થવામાં એરર આવી રહી છે!");
+                alert("ફોટો લોડ કરવામાં એરર આવી છે!");
                 return;
             }
             
-            // ફોટાને કેનવાસની પહોળાઈ (800px) મુજબ સેટ કરો
+            // A4 સાઈઝની પહોળાઈ (800px) મુજબ પરફેક્ટ સ્કેલ કરો
             img.scaleToWidth(800);
             
+            // કેનવાસનું બેકગ્રાઉન્ડ અને ઈમેજ સેટ કરો
             this.canvas.setBackgroundImage(img, this.canvas.renderAll.bind(this.canvas), {
                 originX: 'left',
-                originY: 'top'
+                originY: 'top',
+                left: 0,
+                top: 0
             });
             
-            // ફોટાની સાઈઝ મુજબ કેનવાસની ઊંચાઈ જાતે સેટ કરો
-            this.canvas.setHeight(img.getScaledHeight());
+            // કેનવાસની ઊંચાઈ A4 પ્રપોર્શન મુજબ સેટ કરો
+            this.canvas.setHeight(1131);
             this.canvas.renderAll();
             
-            // પ્રોસેસ પૂરી થાય એટલે મેસેજ બતાવો
-            alert("✅ ફોટો સફળતાપૂર્વક કેનવાસ પર આવી ગયો છે! હવે તમે તેમાં લખાણ ઉમેરી શકો છો.");
+            console.log("Image loaded successfully on A4 Canvas");
         });
     }
 };
 
-// બ્રાઉઝર પૂરી રીતે લોડ થાય પછી જ કેનવાસ ચાલુ કરો
 document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => { EditorCanvas.init(); }, 500);
+    setTimeout(() => { 
+        if(window.fabric) {
+            EditorCanvas.init(); 
+        }
+    }, 500);
 });
