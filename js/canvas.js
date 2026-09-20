@@ -1,79 +1,74 @@
-// js/canvas.js - Perfect A4 Canvas & Image Fitting Module
-console.log("Professional Canvas Module Loaded");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAHAN Book Studio PRO+</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="logo">
+            <h2>MAHAN<sup style="font-size: 14px;">®</sup> <span>Book Studio PRO+</span></h2>
+        </div>
+        <div class="project-tools">
+            <button id="btnNew"><i class="fas fa-file"></i> New Project</button>
+            <button id="btnSave"><i class="fas fa-save"></i> Save</button>
+            <button id="btnExportPDF" class="btn-primary"><i class="fas fa-file-pdf"></i> Export Book (with Cover)</button>
+        </div>
+    </header>
 
-const EditorCanvas = {
-    canvas: null,
-
-    init: function() {
-        // A4 Size Proportion Setup (800 x 1131 pixels)
-        this.canvas = new fabric.Canvas('mainEditorCanvas', {
-            width: 800,  
-            height: 1131, 
-            backgroundColor: '#092029' // MAHAN Theme Dark Background
-        });
-        
-        this.bindEvents();
-    },
-
-    bindEvents: function() {
-        // Text Overlay Button
-        const btnAddText = document.getElementById('btnAddText');
-        if(btnAddText) {
-            btnAddText.addEventListener('click', () => {
-                const text = new fabric.IText('અહીં લખાણ ટાઈપ કરો...', {
-                    left: 100, 
-                    top: 150, 
-                    fill: '#ff8c00', // Orange Accent Color
-                    fontSize: 36, 
-                    editable: true
-                });
-                this.canvas.add(text);
-                this.canvas.setActiveObject(text);
-                this.canvas.renderAll();
-            });
-        }
-
-        // Set Background Color Button
-        const btnApplyBg = document.getElementById('btnApplyBg');
-        if(btnApplyBg) {
-            btnApplyBg.addEventListener('click', () => {
-                this.canvas.setBackgroundColor('#113642', this.canvas.renderAll.bind(this.canvas));
-            });
-        }
-    },
-    
-    // ફોટો અપલોડ થાય એટલે A4 સાઈઝ અને બેકગ્રાઉન્ડ કલર સાથે પરફેક્ટ ગોઠવણી
-    loadPageToCanvas: function(imageSrc) {
-        fabric.Image.fromURL(imageSrc, (img) => {
-            if (!img) {
-                alert("ફોટો લોડ કરવામાં એરર આવી છે!");
-                return;
-            }
+    <div class="workspace">
+        <aside class="sidebar-left">
+            <div class="panel">
+                <h3><i class="fas fa-plus-circle"></i> Add Content</h3>
+                <button id="btnUploadPages"><i class="fas fa-images"></i> Upload Pages</button>
+                <input type="file" id="fileUploader" multiple accept="image/*" style="display: none;">
+                
+                <button id="btnAddText"><i class="fas fa-font"></i> Add Text Overlay</button>
+            </div>
             
-            // A4 સાઈઝની પહોળાઈ (800px) મુજબ પરફેક્ટ સ્કેલ કરો
-            img.scaleToWidth(800);
-            
-            // કેનવાસનું બેકગ્રાઉન્ડ અને ઈમેજ સેટ કરો
-            this.canvas.setBackgroundImage(img, this.canvas.renderAll.bind(this.canvas), {
-                originX: 'left',
-                originY: 'top',
-                left: 0,
-                top: 0
-            });
-            
-            // કેનવાસની ઊંચાઈ A4 પ્રપોર્શન મુજબ સેટ કરો
-            this.canvas.setHeight(1131);
-            this.canvas.renderAll();
-            
-            console.log("Image loaded successfully on A4 Canvas");
-        });
-    }
-};
+            <div class="panel">
+                <h3><i class="fas fa-cog"></i> Page Settings</h3>
+                <input type="text" id="pageHeading" placeholder="Page Heading">
+                <textarea id="pageQuote" placeholder="સુવિચાર (Unique for this page)"></textarea>
+            </div>
+        </aside>
 
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => { 
-        if(window.fabric) {
-            EditorCanvas.init(); 
-        }
-    }, 500);
-});
+        <main class="canvas-container-wrapper">
+            <div class="canvas-header">
+                <span id="currentPageIndicator">Page 1 / 1</span>
+                <div class="history-tools">
+                    <button id="btnUndo"><i class="fas fa-undo"></i></button>
+                    <button id="btnRedo"><i class="fas fa-redo"></i></button>
+                    <button id="btnRestore" class="btn-warning"><i class="fas fa-history"></i> Original</button>
+                </div>
+            </div>
+            <div style="border: 2px solid #55c3ba; background: #092029; display: inline-block;">
+                <canvas id="mainEditorCanvas"></canvas>
+            </div>
+        </main>
+
+        <aside class="sidebar-right">
+            <div class="panel">
+                <h3><i class="fas fa-paint-brush"></i> Theme & Brand</h3>
+                <button id="btnApplyBg"><i class="fas fa-fill-drip"></i> Set Background</button>
+                <div class="toggle-switch" style="margin-top: 10px;">
+                    <input type="checkbox" id="toggleMahanLogo" checked style="margin-right: 5px;">
+                    <label for="toggleMahanLogo">Show MAHAN Logo</label>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="thumbnail-bar" id="pageThumbnails"></footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/export.js"></script>
+</body>
+</html>
