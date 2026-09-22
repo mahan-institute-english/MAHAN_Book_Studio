@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Final Clean Book Generator
-console.log("Mahan Final Export Module Loaded");
+// js/export.js - Mahan Institute Perfect Proportional PDF Generator
+console.log("Mahan Pro Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(153, 214, 214);
                 pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 180, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with Pure Navy Blue Background & Clean Look ---
+                // --- ૨. Uploaded Pages with Perfect Proportional Fitting ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // 1. આખા પેજનું બેકગ્રાઉન્ડ ફરજિયાત ડાર્ક નેવી બ્લુ કરો (#092029)
+                    // 1. આખા પેજનું બેકગ્રાઉન્ડ નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // 3. ટોપ બ્રાન્ડ હેડર બોક્સ (MAHAN - The Institute Of English)
+                    // 3. ટોપ બ્રાન્ડ હેડર બોક્સ
                     pdf.setFillColor(13, 48, 60);
                     pdf.rect(15, 14, pageWidth - 30, 14, 'F');
                     
@@ -73,11 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setFont("helvetica", "bold");
                     pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
-                    // 4. ફોટાને મિક્સ કરવા માટે સરસ રીતે પ્લેસ કરો (Background Shadow હટાવવા માટે ફિલ્ટર સાથે)
-                    // અહીં આપણે ઈમેજને પરફેક્ટ પ્રપોર્શનમાં સેટ કરીએ છીએ જેથી લખાણ કપાય નહીં
-                    pdf.addImage(pageData.originalImage, 'JPEG', 15, 32, pageWidth - 30, pageHeight - 52);
+                    // 4. ઈમેજને ઓવરલેપ કે ડબલ પ્રિન્ટ થતી અટકાવવા માટે ક્લીન ડાયમેન્શનમાં ગોઠવો
+                    // અહીં આપણે પ્રોપોર્શન જાળવીશું જેથી ફોટો ઊંધો કે આડો ન થાય
+                    const imgWidth = 180;
+                    const imgHeight = 225; // A4 пропорशन મુજબ યોગ્ય ઊંચાઈ
+                    const imgX = (pageWidth - imgWidth) / 2;
+                    const imgY = 32;
 
-                    // 5. બોટમ ફૂટર લાઈન, કોટ અને સાચો પેજ નંબર
+                    pdf.addImage(pageData.originalImage, 'JPEG', imgX, imgY, imgWidth, imgHeight);
+
+                    // 5. બોટમ ફૂટર લાઈન અને સાચો પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 18, pageWidth - 15, pageHeight - 18);
 
