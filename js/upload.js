@@ -1,5 +1,5 @@
-// js/upload.js - Complete Upload & Page Management Module
-console.log("Upload Module Loaded");
+// js/upload.js - Clean Single Page Upload Fix
+console.log("Clean Upload Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -17,13 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!files || files.length === 0) return;
 
             const thumbBar = document.getElementById('pageThumbnails');
+            if (thumbBar) thumbBar.innerHTML = ''; // જૂની ડબલ એન્ટ્રી સાફ કરો
+            if (typeof MahanStudio !== 'undefined') {
+                MahanStudio.pages = []; // એરે ખાલી કરો જેથી ડબલ ન થાય
+            }
 
             Array.from(files).forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     const imgSrc = event.target.result;
                     
-                    // સેવ કરો જેથી એક્સપોર્ટ વખતે એરર ન આવે
                     if (typeof MahanStudio !== 'undefined') {
                         MahanStudio.pages.push({
                             id: Date.now() + index,
@@ -32,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                     }
 
-                    // થંબનેલ બનાવો
                     if (thumbBar) {
                         const thumb = document.createElement('div');
                         thumb.style.width = '70px';
@@ -53,8 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         thumbBar.appendChild(thumb);
                     }
 
-                    // કેનવાસ પર પહેલો ફોટો લોડ કરો
-                    if (window.EditorCanvas) {
+                    if (index === 0 && window.EditorCanvas) {
                         window.EditorCanvas.loadPageToCanvas(imgSrc);
                     }
                 };
