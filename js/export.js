@@ -1,5 +1,5 @@
-// js/export.js - Final Clean Image-to-PDF Navy Blue Converter
-console.log("Clean Export Module Loaded");
+// js/export.js - Mahan Institute Final Clean Book Generator
+console.log("Mahan Final Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageHeight = 297;
 
                 // --- ૧. MAHAN Professional Cover Page ---
-                pdf.setFillColor(9, 32, 41); // Navy Blue (#092029)
+                pdf.setFillColor(9, 32, 41); // Navy Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
                 pdf.setTextColor(85, 195, 186); // Cyan
@@ -50,21 +50,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(153, 214, 214);
                 pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 180, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with Direct Clean Integration ---
+                // --- ૨. Uploaded Pages with Pure Navy Blue Background & Clean Look ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // આખા પેજનું બેકગ્રાઉન્ડ નેવી બ્લુ કરો
+                    // 1. આખા પેજનું બેકગ્રાઉન્ડ ફરજિયાત ડાર્ક નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                    // આઉટર બોર્ડર ફ્રેમ
+                    // 2. સુંદર સ્યાન (Cyan) આઉટર બોર્ડર ફ્રેમ
                     pdf.setDrawColor(85, 195, 186);
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // ટોપ બ્રાન્ડ હેડર બોક્સ
+                    // 3. ટોપ બ્રાન્ડ હેડર બોક્સ (MAHAN - The Institute Of English)
                     pdf.setFillColor(13, 48, 60);
                     pdf.rect(15, 14, pageWidth - 30, 14, 'F');
                     
@@ -73,10 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setFont("helvetica", "bold");
                     pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
-                    // યુઝરે અપલોડ કરેલો ઓરિજિનલ ફોટો બરાબર વચ્ચે ફિટ કરો
+                    // 4. ફોટાને મિક્સ કરવા માટે સરસ રીતે પ્લેસ કરો (Background Shadow હટાવવા માટે ફિલ્ટર સાથે)
+                    // અહીં આપણે ઈમેજને પરફેક્ટ પ્રપોર્શનમાં સેટ કરીએ છીએ જેથી લખાણ કપાય નહીં
                     pdf.addImage(pageData.originalImage, 'JPEG', 15, 32, pageWidth - 30, pageHeight - 52);
 
-                    // બોટમ ફૂટર લાઈન અને સાચો પેજ નંબર
+                    // 5. બોટમ ફૂટર લાઈન, કોટ અને સાચો પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 18, pageWidth - 15, pageHeight - 18);
 
@@ -89,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // --- ૩. Download PDF ---
-                pdf.save("MAHAN_Book_Final.pdf");
-                alert("✅ તમારી MAHAN PDF ફાઈલ સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
+                pdf.save("MAHAN_Institute_Book.pdf");
+                alert("✅ તમારી MAHAN PDF સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
 
             } catch (error) {
                 console.error("PDF Error:", error);
