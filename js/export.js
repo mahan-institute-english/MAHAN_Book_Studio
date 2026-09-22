@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Perfect Proportional PDF Generator
-console.log("Mahan Pro Export Module Loaded");
+// js/export.js - Mahan Institute Ultimate Background Remover & Navy Blue Converter
+console.log("Ultimate Background Remover Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -50,10 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(153, 214, 214);
                 pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 180, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with Perfect Proportional Fitting ---
+                // --- ૨. Uploaded Pages with Automatic White Background Removal ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
+
+                    // જાતે જ સફેદ બેકગ્રાઉન્ડ હટાવીને નેવી બ્લુ સાથે મર્જ કરનાર ફંક્શન કોલ કરો
+                    const cleanImageData = await removeWhiteBackgroundAndConvertToNavy(pageData.originalImage);
 
                     // 1. આખા પેજનું બેકગ્રાઉન્ડ નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
@@ -73,14 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setFont("helvetica", "bold");
                     pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
-                    // 4. ઈમેજને ઓવરલેપ કે ડબલ પ્રિન્ટ થતી અટકાવવા માટે ક્લીન ડાયમેન્શનમાં ગોઠવો
-                    // અહીં આપણે પ્રોપોર્શન જાળવીશું જેથી ફોટો ઊંધો કે આડો ન થાય
+                    // 4. ક્લીન કરેલી ઈમેજ પ્રોપોર્શનમાં ગોઠવો
                     const imgWidth = 180;
-                    const imgHeight = 225; // A4 пропорशन મુજબ યોગ્ય ઊંચાઈ
+                    const imgHeight = 225;
                     const imgX = (pageWidth - imgWidth) / 2;
                     const imgY = 32;
 
-                    pdf.addImage(pageData.originalImage, 'JPEG', imgX, imgY, imgWidth, imgHeight);
+                    pdf.addImage(cleanImageData, 'PNG', imgX, imgY, imgWidth, imgHeight);
 
                     // 5. બોટમ ફૂટર લાઈન અને સાચો પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // --- ૩. Download PDF ---
-                pdf.save("MAHAN_Institute_Book.pdf");
+                pdf.save("MAHAN_Perfect_Book.pdf");
                 alert("✅ તમારી MAHAN PDF સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
 
             } catch (error) {
@@ -105,3 +107,45 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }, 1000);
 });
+
+// Helper Function: સફેદ બેકગ્રાઉન્ડને ગાયબ કરીને નેવી બ્લુ થીમમાં કન્વર્ટ કરવા માટે
+function removeWhiteBackgroundAndConvertToNavy(imgSrc) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+
+            // બેકગ્રાઉન્ડમાં MAHAN ડાર્ક નેવી બ્લુ કલર (#092029) ભરો
+            ctx.fillStyle = '#092029';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // ઓરિજિનલ ફોટો ડ્રો કરો
+            ctx.drawImage(img, 0, 0);
+
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+
+            // પિક્સેલ ચેક કરો: જો કલર સફેદ (White/Light) હોય તો તેને નેવી બ્લુ બેકગ્રાઉન્ડ સાથે મિક્સ કરી દો
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i+1];
+                const b = data[i+2];
+
+                // જો બેકગ્રાઉન્ડ સફેદ કે ચોખ્ખો પ્રકાશવાળો ભાગ હોય તો તેને ડાર્ક બ્લુમાં ફેરવો
+                if (r > 190 && g > 190 && b > 190) {
+                    data[i] = 9;       // Red -> 9
+                    data[i+1] = 32;    // Green -> 32
+                    data[i+2] = 41;    // Blue -> 41
+                }
+            }
+
+            ctx.putImageData(imgData, 0, 0);
+            resolve(canvas.toDataURL('image/png'));
+        };
+        img.src = imgSrc;
+    });
+                }
