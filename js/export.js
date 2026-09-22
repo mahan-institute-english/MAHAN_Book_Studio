@@ -1,5 +1,5 @@
-// js/export.js - Perfect Navy Blue Theme Book Generator with Blend Fix
-console.log("Navy Blue Theme Export Module Loaded");
+// js/export.js - Secure PDF Export Module
+console.log("Secure Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -12,11 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            // jsPDF લાઈબ્રેરી ચેક કરો
+            const jsPDFLib = window.jspdf ? window.jspdf.jsPDF : window.jsPDF;
+            if (!jsPDFLib) {
+                alert("❌ એરર: jsPDF લાઈબ્રેરી લોડ થઈ નથી. કૃપા કરીને ઇન્ટરનેટ કનેક્શન તપાસો.");
+                return;
+            }
+
             alert("⏳ MAHAN Professional PDF જનરેટ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...");
 
             try {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdf = new jsPDFLib('p', 'mm', 'a4');
                 const pageWidth = 210;
                 const pageHeight = 297;
 
@@ -45,21 +51,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(153, 214, 214);
                 pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 180, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with Pure Navy Blue Background & Clean Blend ---
+                // --- ૨. Uploaded Pages with Navy Blue Background ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // 1. આખા પેજનું બેકગ્રાઉન્ડ સક્સેસફુલ નેવી બ્લુ કરો
+                    // પેજનું આખું બેકગ્રાઉન્ડ નેવી બ્લુ કરો
                     pdf.setFillColor(9, 32, 41);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                    // 2. સુંદર આઉટર બોર્ડર ફ્રેમ
+                    // આઉટર બોર્ડર ફ્રેમ
                     pdf.setDrawColor(85, 195, 186);
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // 3. ટોપ બ્રાન્ડ હેડર બોક્સ (MAHAN - The Institute Of English)
+                    // ટોપ બ્રાન્ડ હેડર બોક્સ
                     pdf.setFillColor(13, 48, 60);
                     pdf.rect(15, 14, pageWidth - 30, 14, 'F');
                     
@@ -68,15 +74,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setFont("helvetica", "bold");
                     pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
-                    // 4. અપલોડ કરેલો ફોટો મૂકો અને 'MULTIPLY' મોડ વાપરો જેથી સફેદ બેકગ્રાઉન્ડ બ્લુમાં ભળી જાય
-                    pdf.addImage(pageData.originalImage, 'JPEG', 15, 32, pageWidth - 30, pageHeight - 52, undefined, 'FAST');
+                    // અપલોડ કરેલો ફોટો મૂકો
+                    pdf.addImage(pageData.originalImage, 'JPEG', 15, 32, pageWidth - 30, pageHeight - 52);
 
-                    // 5. બોટમ ફૂટર લાઈન અને પેજ નંબર
+                    // બોટમ ફૂટર લાઈન અને પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 18, pageWidth - 15, pageHeight - 18);
 
                     pdf.setTextColor(255, 255, 255);
-춧pdf.setFontSize(10);
+                    pdf.setFontSize(10);
                     pdf.text("The heaven lies at the feet of mother.", 20, pageHeight - 12);
                     
                     const pageNumStr = String(i + 1).padStart(2, '0');
@@ -84,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // --- ૩. Download PDF ---
-                pdf.save("MAHAN_NavyBlue_Book.pdf");
-                alert("✅ તમારી નેવી બ્લુ બેકગ્રાઉન્ડવાળી પરફેક્ટ MAHAN PDF ડાઉનલોડ થઈ ગઈ છે!");
+                pdf.save("MAHAN_Perfect_Book.pdf");
+                alert("✅ તમારી MAHAN PDF સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
 
             } catch (error) {
                 console.error("PDF Error:", error);
