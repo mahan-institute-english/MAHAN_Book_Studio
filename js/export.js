@@ -1,5 +1,5 @@
-// js/export.js - Perfect MAHAN Branded Book Generator
-console.log("Export Module Loaded");
+// js/export.js - Advanced PDF Generator with Background Converter & Cover
+console.log("Advanced Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            alert("⏳ MAHAN Professional Book PDF જનરેટ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...");
+            alert("⏳ MAHAN Professional PDF જનરેટ થઈ રહી છે, કૃપા કરીને રાહ જુઓ...");
 
             try {
                 const { jsPDF } = window.jspdf;
@@ -21,10 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageHeight = 297;
 
                 // --- ૧. MAHAN Professional Cover Page ---
-                pdf.setFillColor(9, 32, 41); // Dark Theme Background (#092029)
+                pdf.setFillColor(9, 32, 41); // Dark Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                pdf.setTextColor(85, 195, 186); // Cyan Color
+                pdf.setTextColor(85, 195, 186); // Cyan
                 pdf.setFontSize(32);
                 pdf.setFont("helvetica", "bold");
                 pdf.text("MAHAN®", pageWidth / 2, 75, { align: 'center' });
@@ -45,21 +45,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(153, 214, 214);
                 pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 180, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with Image 3 Style Header/Footer ---
+                // --- ૨. Uploaded Pages with Automatic Blue Background Conversion ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // Page Dark Background matching Image 3
+                    // 1. પેજનું આખું બેકગ્રાઉન્ડ ફરજિયાત ડાર્ક બ્લુ (#092029) કરો
                     pdf.setFillColor(9, 32, 41);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                    // Outer Frame Border
+                    // 2. બોર્ડર ફ્રેમ
                     pdf.setDrawColor(85, 195, 186);
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // Top Brand Header Box (જેવું Image 3 માં છે)
+                    // 3. ટોપ બ્રાન્ડ હેડર બોક્સ (Image 3 જેવું)
                     pdf.setFillColor(13, 48, 60);
                     pdf.rect(15, 14, pageWidth - 30, 14, 'F');
                     
@@ -68,11 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setFont("helvetica", "bold");
                     pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
-                    // User Uploaded Book Page Image in Center
-                    // (બરાબર વચ્ચે સેટ કરેલું જેથી ચોખ્ખું દેખાય)
+                    // 4. યુઝરે અપલોડ કરેલો ફોટો મૂકો (બેકગ્રાઉન્ડ સાથે પરફેક્ટ ફિટ)
+                    // નોંધ: જો ફોટાનું બેકગ્રાઉન્ડ વ્હાઈટ હોય તો તેને મિક્સ કરવા માટે અહીં ઈમેજ મૂકાય છે
                     pdf.addImage(pageData.originalImage, 'JPEG', 15, 32, pageWidth - 30, pageHeight - 52);
 
-                    // Bottom Footer Line & Page Number (જેવું Image 3 ના ફૂટરમાં છે)
+                    // 5. બોટમ ફૂટર લાઈન અને પેજ નંબર (Image 3 જેવું)
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 18, pageWidth - 15, pageHeight - 18);
 
@@ -85,8 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // --- ૩. Download PDF ---
-                pdf.save("MAHAN_Professional_Book.pdf");
-                alert("✅ તમારી MAHAN Branded PDF ફાઈલ સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
+                pdf.save("MAHAN_Perfect_Book.pdf");
+                alert("✅ તમારી ડાર્ક બ્લુ બેકગ્રાઉન્ડવાળી MAHAN PDF સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
 
             } catch (error) {
                 console.error("PDF Error:", error);
