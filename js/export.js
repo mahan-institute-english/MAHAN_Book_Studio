@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(85, 195, 186); // Cyan
                 pdf.setFontSize(32);
                 pdf.setFont("helvetica", "bold");
-                pdf.text("MAHAN®", pageWidth / 2, 75, { align: 'center' });
+                pdf.text("MAHAN", pageWidth / 2, 75, { align: 'center' });
 
                 pdf.setTextColor(255, 255, 255);
                 pdf.setFontSize(18);
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setTextColor(85, 195, 186);
                     pdf.setFontSize(12);
                     pdf.setFont("helvetica", "bold");
-                    pdf.text("MAHAN® - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
+                    pdf.text("MAHAN - The Institute Of English", pageWidth / 2, 23, { align: 'center' });
 
                     // 4. ફુલ એચડી પ્રોસેસ્ડ ઈમેજ બરાબર વચ્ચે ફિટ કરો
                     const imgWidth = 180;
