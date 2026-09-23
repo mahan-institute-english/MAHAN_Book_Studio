@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Final HD Production Ready Code
-console.log("Mahan Final Production Export Loaded");
+// js/export.js - Mahan Institute Final HD Production Ready Code (v8_wonder)
+console.log("Mahan Production Export Module Loaded - V8 Wonder");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -25,11 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageWidth = 210;
                 const pageHeight = 297;
 
+                // Get global text color setting
+                const globalTextColor = window.MahanStudioConfig ? MahanStudioConfig.globalFontColor : '#FFFFFF';
+
                 // --- ૧. MAHAN Professional Cover Page ---
                 pdf.setFillColor(9, 32, 41); // Navy Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                // Image 2 મુજબ શાનદાર કવર લોગો બોક્સ
+                // Image 2 મુજબ શાનદાર કવર લોગો બોક્સ (Glow effect)
                 pdf.setDrawColor(85, 195, 186);
                 pdf.setLineWidth(0.8);
                 pdf.roundedRect(pageWidth / 2 - 55, 60, 110, 35, 5, 5, 'S');
@@ -49,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.rect(15, 15, pageWidth - 30, pageHeight - 30);
 
                 pdf.setFontSize(22);
-                pdf.text("English Spoken & Grammar Book", pageWidth / 2, 160, { align: 'center' });
+                pdf.text("International Spoken English & Grammar Book", pageWidth / 2, 160, { align: 'center' });
                 
                 pdf.setFontSize(13);
                 pdf.setTextColor(153, 214, 214);
@@ -99,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
 
-                    pdf.setTextColor(255, 255, 255);
+                    pdf.setTextColor(globalTextColor);
                     pdf.setFontSize(10);
                     const pageNumStr = String(i + 2).padStart(2, '0');
                     pdf.text(pageNumStr, pageWidth - 20, pageHeight - 9, { align: 'right' });
@@ -165,4 +168,4 @@ function convertToFullHDNavyThemeClean(imgSrc) {
         };
         img.src = imgSrc;
     });
-}
+        }
