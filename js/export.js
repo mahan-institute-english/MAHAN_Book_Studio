@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Ultimate Production Ready v12.0 (HD Smooth Text & Perfect Logo)
-console.log("Mahan Ultimate V12 Export Module Loaded");
+// js/export.js - Mahan Institute Ultimate Production Ready v13.0 (Solid HD White Text & Clean Rendering)
+console.log("Mahan Ultimate V13 Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -25,11 +25,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageWidth = 210;
                 const pageHeight = 297;
 
-                // ગ્લોબલ ટેક્સ્ટ કલર રીડ કરો (યુઝરે સેટ કરેલો ઓપ્શન)
+                // ગ્લોબલ ટેક્સ્ટ કલર રીડ કરો (డిఫాల్ట్ શુદ્ધ સફેદ #FFFFFF)
                 const globalColorInput = document.getElementById('globalFontColor');
-                const globalTextColor = globalColorInput ? globalColorInput.value : '#FFFFFF';
+                const textColorHex = globalColorInput ? globalColorInput.value : '#FFFFFF';
+                
+                // Convert Hex color to RGB array for jsPDF
+                const rgbColor = hexToRgb(textColorHex);
 
-                // --- ૧. Professional Cover Page (Image 2/3 Logo & Clean Title) ---
+                // --- ૧. Professional Cover Page (Clean Title & Perfect Logo) ---
                 pdf.setFillColor(9, 32, 41); // Navy Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
@@ -42,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setLineWidth(0.6);
                 pdf.roundedRect(18, 18, pageWidth - 36, pageHeight - 36, 4, 4, 'S');
 
-                // Image 2/3 મુજબ શુદ્ધ MAHAN લોગો બોક્સ (વગર '®')
+                // શુદ્ધ MAHAN લોગો બોક્સ (વગર '®')
                 pdf.setFillColor(13, 48, 60);
                 pdf.roundedRect(pageWidth / 2 - 65, 45, 130, 42, 8, 8, 'FD');
 
@@ -68,13 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setTextColor(180, 220, 220);
                 pdf.text("Professional Course Material • Morbi, Gujarat, India", pageWidth / 2, 230, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with HD Smooth Text & Shadow Removal ---
+                // --- ૨. Uploaded Pages with Solid HD Text & Clean Background ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // હાઈ-ક્વોલિટી સ્મૂધ એચડી ઈમેજ પ્રોસેસિંગ
-                    const smoothCleanImage = await processImageSmoothHD(pageData.originalImage);
+                    // સોલિડ અને આઉટલાઈન વગરની ક્લીન એચડી ઈમેજ પ્રોસેસિંગ
+                    const solidCleanImage = await processImageSolidHD(pageData.originalImage, rgbColor);
 
                     // આખા પેજનું બેકગ્રાઉન્ડ શુદ્ધ નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
@@ -85,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // હેડર લોગો (Image 2/3 મુજબ પિલ્લર લોગો, વગર '®')
+                    // હેડર લોગો (પિલ્લર લોગો, વગર '®')
                     pdf.setDrawColor(85, 195, 186);
                     pdf.setLineWidth(0.5);
                     pdf.setFillColor(13, 48, 60);
@@ -106,13 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     const imgX = (pageWidth - imgWidth) / 2;
                     const imgY = 32;
 
-                    pdf.addImage(smoothCleanImage, 'PNG', imgX, imgY, imgWidth, imgHeight);
+                    pdf.addImage(solidCleanImage, 'PNG', imgX, imgY, imgWidth, imgHeight);
 
                     // બોટમ ફૂટર લાઈન અને પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
 
-                    pdf.setTextColor(globalTextColor);
+                    pdf.setTextColor(rgbColor.r, rgbColor.g, rgbColor.b);
                     pdf.setFontSize(10);
                     const pageNumStr = String(i + 2).padStart(2, '0');
                     pdf.text(pageNumStr, pageWidth - 20, pageHeight - 9, { align: 'right' });
@@ -130,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
 });
 
-// Helper Function: અક્ષરો ફાટે નહીં (Anti-aliased Smooth HD) અને સફેદ પડછાયો હટે તે માટેનું પ્રોસેસિંગ
-function processImageSmoothHD(imgSrc) {
+// Helper Function: અક્ષરો સોલિડ અને સાફ રાખનાર તથા આઉટલાઈન હટાવનાર ફંક્શન
+function processImageSolidHD(imgSrc, targetRgb) {
     return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
@@ -145,7 +148,6 @@ function processImageSmoothHD(imgSrc) {
             ctx.fillStyle = '#092029';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // હાઈ ક્વોલિટી સ્મૂધિંગ ચાલુ કરો જેથી અક્ષરો ફાટે નહીં
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -160,13 +162,17 @@ function processImageSmoothHD(imgSrc) {
 
                 const avg = (r + g + b) / 3;
 
-                // સફેદ બેકગ્રાઉન્ડ અને નીચેનો પડછાયો સાફ કરો
-                if (avg > 145) {
-                    data[i] = 9;       // Red
-                    data[i+1] = 32;    // Green
-                    data[i+2] = 41;    // Blue
+                // જો બેકગ્રાઉન્ડ કે હળવો સફેદ ભાગ હોય તો તેને નેવી બ્લુમાં ફેરવો
+                if (avg > 150) {
+                    data[i] = 9;       // Red (#09)
+                    data[i+1] = 32;    // Green (#20)
+                    data[i+2] = 41;    // Blue (#29)
+                } else {
+                    // બાકીના અક્ષરોને યુઝરે પસંદ કરેલા સોલિડ કલરમાં પરિવર્તિત કરો (કોઈ આઉટલાઈન કે પોલાણ નહીં)
+                    data[i] = targetRgb.r;     
+                    data[i+1] = targetRgb.g;   
+                    data[i+2] = targetRgb.b;   
                 }
-                // બાકીના અક્ષરોને એકદમ સ્મૂધ અને શાર્પ રાખો
             }
 
             ctx.putImageData(imgData, 0, 0);
@@ -174,4 +180,18 @@ function processImageSmoothHD(imgSrc) {
         };
         img.src = imgSrc;
     });
-            }
+}
+
+// Helper: Hex color to RGB converter
+function hexToRgb(hex) {
+    let cleanedHex = hex.replace('#', '');
+    if (cleanedHex.length === 3) {
+        cleanedHex = cleanedHex.split('').map(c => c + c).join('');
+    }
+    const num = parseInt(cleanedHex, 16);
+    return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255
+    };
+        }
