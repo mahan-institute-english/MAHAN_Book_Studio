@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Ultimate Production Ready v9.0
-console.log("Mahan Ultimate V9 Export Module Loaded");
+// js/export.js - Mahan Institute Ultimate Production Ready v10.0
+console.log("Mahan Ultimate V10 Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -25,52 +25,52 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageWidth = 210;
                 const pageHeight = 297;
 
-                // ગ્લોબલ ટેક્સ્ટ કલર રીડ કરો (યુઝરે સેટ કરેલો ઓપ્શન)
-                const globalColorInput = document.getElementById('globalFontColor');
-                const globalTextColor = globalColorInput ? globalColorInput.value : '#FFFFFF';
-
                 // --- ૧. International Spoken English & Grammar Book - Professional Cover Page ---
                 pdf.setFillColor(9, 32, 41); // Navy Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                // એટ્રેક્ટિવ ગ્લોબલ કવર ડિઝાઇન ફ્રેમ
+                // આકર્ષક ડબલ આઉટર બોર્ડર ફ્રેમ
                 pdf.setDrawColor(85, 195, 186);
                 pdf.setLineWidth(1.2);
-                pdf.roundedRect(20, 20, pageWidth - 40, pageHeight - 40, 8, 8, 'S');
+                pdf.roundedRect(15, 15, pageWidth - 30, pageHeight - 30, 6, 6, 'S');
 
-                // નવો લોગો ('®' વગરનો શુદ્ધ MAHAN લોગો)
+                pdf.setDrawColor(255, 140, 0);
+                pdf.setLineWidth(0.6);
+                pdf.roundedRect(18, 18, pageWidth - 36, pageHeight - 36, 4, 4, 'S');
+
+                // શુદ્ધ MAHAN લોગો (કોઈ '®' નહીં, કોઈ જૂની નિશાની નહીં)
                 pdf.setFillColor(13, 48, 60);
-                pdf.roundedRect(pageWidth / 2 - 60, 50, 120, 40, 6, 6, 'FD');
+                pdf.roundedRect(pageWidth / 2 - 65, 45, 130, 42, 8, 8, 'FD');
 
                 pdf.setTextColor(85, 195, 186); // Cyan
-                pdf.setFontSize(32);
+                pdf.setFontSize(36);
                 pdf.setFont("helvetica", "bold");
-                pdf.text("MAHAN", pageWidth / 2, 69, { align: 'center' });
+                pdf.text("MAHAN", pageWidth / 2, 66, { align: 'center' });
 
                 pdf.setTextColor(255, 255, 255);
-                pdf.setFontSize(13);
-                pdf.text("The Institute Of English", pageWidth / 2, 81, { align: 'center' });
+                pdf.setFontSize(14);
+                pdf.text("The Institute Of English", pageWidth / 2, 79, { align: 'center' });
 
                 // કવર ટાઇટલ - International Spoken English
-                pdf.setFontSize(26);
+                pdf.setFontSize(24);
                 pdf.setTextColor(255, 255, 255);
-                pdf.text("International Spoken English", pageWidth / 2, 145, { align: 'center' });
+                pdf.text("International Spoken English", pageWidth / 2, 140, { align: 'center' });
                 
                 pdf.setFontSize(20);
                 pdf.setTextColor(85, 195, 186);
-                pdf.text("& Grammar Book", pageWidth / 2, 158, { align: 'center' });
+                pdf.text("& Grammar Book", pageWidth / 2, 153, { align: 'center' });
 
                 pdf.setFontSize(13);
                 pdf.setTextColor(180, 220, 220);
-                pdf.text("Professional Course Material • Morbi, Gujarat, India", pageWidth / 2, 220, { align: 'center' });
+                pdf.text("Professional Course Material • Morbi, Gujarat, India", pageWidth / 2, 230, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with HD Sharpness & Clean Navy Background ---
+                // --- ૨. Uploaded Pages with Perfect Shadow Removal & Clean Navy Background ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // ફુલ એચડી શાર્પનિંગ અને બેકગ્રાઉન્ડ કન્વર્ઝન
-                    const hdCleanImage = await convertToFullHDSharpImage(pageData.originalImage);
+                    // ફુલ એચડી શાર્પનિંગ અને નીચેનો સફેદ પડછાયો/પ્રકાશ સંપૂર્ણ કાઢી નાખનાર ફંક્શન
+                    const hdCleanImage = await convertToFullHDWithoutShadow(pageData.originalImage);
 
                     // આખા પેજનું બેકગ્રાઉન્ડ શુદ્ધ નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
 
-                    pdf.setTextColor(globalTextColor);
+                    pdf.setTextColor(255, 255, 255);
                     pdf.setFontSize(10);
                     const pageNumStr = String(i + 2).padStart(2, '0');
                     pdf.text(pageNumStr, pageWidth - 20, pageHeight - 9, { align: 'right' });
@@ -126,14 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
 });
 
-// Helper Function: હાઈ-એન્ડ ફુલ એચડી શાર્પનિંગ અને બેકગ્રાઉન્ડ ક્લિનિંગ
-function convertToFullHDSharpImage(imgSrc) {
+// Helper Function: સફેદ બેકગ્રાઉન્ડ અને નીચેના સફેદ પડછાયા/પ્રકાશને સંપૂર્ણ કટ કરીને નેવી બ્લુ બેકગ્રાઉન્ડ આપનાર ફંક્શન
+function convertToFullHDWithoutShadow(imgSrc) {
     return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = () => {
             const canvas = document.createElement('canvas');
-            canvas.width = img.width * 3; // ટ્રિપલ એચડી રેઝોલ્યુશન જેથી ઝૂમ કરવા પર પણ અક્ષરો ન ફાટે
+            canvas.width = img.width * 3; // હાઈ રેઝોલ્યુશન
             canvas.height = img.height * 3;
             const ctx = canvas.getContext('2d');
 
@@ -147,24 +147,31 @@ function convertToFullHDSharpImage(imgSrc) {
 
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imgData.data;
+            const height = canvas.height;
+            const width = canvas.width;
 
-            for (let i = 0; i < data.length; i += 4) {
-                const r = data[i];
-                const g = data[i+1];
-                const b = data[i+2];
+            // પિક્સેલ પ્રોસેસિંગ: સફેદ બેકગ્રાઉન્ડ અને નીચેના ભાગના પડછાયાને સંપૂર્ણ સાફ કરો
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+                    const r = data[idx];
+                    const g = data[idx+1];
+                    const b = data[idx+2];
 
-                const avg = (r + g + b) / 3;
+                    const avg = (r + g + b) / 3;
 
-                // સફેદ બેકગ્રાઉન્ડ અને પડછાયા/પ્રકાશને કાયમ માટે હટાવીને નેવી બ્લુ સાથે મિક્સ કરો
-                if (avg > 140) {
-                    data[i] = 9;       // Red
-                    data[i+1] = 32;    // Green
-                    data[i+2] = 41;    // Blue
-                } else {
-                    // અક્ષરોને એકદમ ઘાટા અને શાર્પ સફેદ બનાવો
-                    data[i] = 255;     
-                    data[i+1] = 255;   
-                    data[i+2] = 255;   
+                    // જો નીચેના ભાગમાં (Footer Area) સફેદ પડછાયો કે ફ્લેર હોય તો તેને સીધો નેવી બ્લુ કરી દો
+                    // તેમજ બાકીનું સફેદ બેકગ્રાઉન્ડ પણ સાફ કરો
+                    if (avg > 135) {
+                        data[idx] = 9;       // Red
+                        data[idx+1] = 32;    // Green
+                        data[idx+2] = 41;    // Blue
+                    } else {
+                        // અક્ષરોને એકદમ ઘાટા અને શાર્પ સફેદ બનાવો
+                        data[idx] = 255;     
+                        data[idx+1] = 255;   
+                        data[idx+2] = 255;   
+                    }
                 }
             }
 
@@ -173,4 +180,4 @@ function convertToFullHDSharpImage(imgSrc) {
         };
         img.src = imgSrc;
     });
-                        }
+                    }
