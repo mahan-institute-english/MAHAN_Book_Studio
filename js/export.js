@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.roundedRect(pageWidth / 2 - 65, 45, 130, 42, 8, 8, 'FD');
 
                 pdf.setTextColor(85, 195, 186); // Cyan
-                pdf.setFontSize(46);
+                pdf.setFontSize(36);
                 pdf.setFont("helvetica", "bold");
                 pdf.text("MAHAN", pageWidth / 2, 66, { align: 'center' });
 
