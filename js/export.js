@@ -42,13 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 pdf.setFillColor(13, 48, 60);
                 pdf.roundedRect(pageWidth / 2 - 65, 45, 130, 42, 8, 8, 'FD');
 
-                pdf.setTextColor(85, 195, 186); // Cyan
-                pdf.setFontSize(36);
+                pdf.setTextColor(95, 205, 196); // Cyan
+                pdf.setFontSize(46);
                 pdf.setFont("helvetica", "bold");
-                pdf.text("MAHAN", pageWidth / 2, 66, { align: 'center' });
+                pdf.text("MAHAN", pageWidth / 2, 76, { align: 'center' });
 
                 pdf.setTextColor(255, 255, 255);
-                pdf.setFontSize(14);
+                pdf.setFontSize(24);
                 pdf.text("The Institute Of English", pageWidth / 2, 79, { align: 'center' });
 
                 // કવર ટાઇટલ - International Spoken English
