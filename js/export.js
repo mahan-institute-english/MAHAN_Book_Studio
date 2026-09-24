@@ -1,5 +1,5 @@
-// js/export.js - Mahan Institute Final HD Production Ready Code (v8_wonder)
-console.log("Mahan Production Export Module Loaded - V8 Wonder");
+// js/export.js - Mahan Institute Ultimate Production Ready v9.0
+console.log("Mahan Ultimate V9 Export Module Loaded");
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
@@ -25,46 +25,52 @@ document.addEventListener("DOMContentLoaded", () => {
                 const pageWidth = 210;
                 const pageHeight = 297;
 
-                // Get global text color setting
-                const globalTextColor = window.MahanStudioConfig ? MahanStudioConfig.globalFontColor : '#FFFFFF';
+                // ગ્લોબલ ટેક્સ્ટ કલર રીડ કરો (યુઝરે સેટ કરેલો ઓપ્શન)
+                const globalColorInput = document.getElementById('globalFontColor');
+                const globalTextColor = globalColorInput ? globalColorInput.value : '#FFFFFF';
 
-                // --- ૧. MAHAN Professional Cover Page ---
+                // --- ૧. International Spoken English & Grammar Book - Professional Cover Page ---
                 pdf.setFillColor(9, 32, 41); // Navy Blue Theme (#092029)
                 pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                // Image 2 મુજબ શાનદાર કવર લોગો બોક્સ (Glow effect)
+                // એટ્રેક્ટિવ ગ્લોબલ કવર ડિઝાઇન ફ્રેમ
                 pdf.setDrawColor(85, 195, 186);
-                pdf.setLineWidth(0.8);
-                pdf.roundedRect(pageWidth / 2 - 55, 60, 110, 35, 5, 5, 'S');
+                pdf.setLineWidth(1.2);
+                pdf.roundedRect(20, 20, pageWidth - 40, pageHeight - 40, 8, 8, 'S');
+
+                // નવો લોગો ('®' વગરનો શુદ્ધ MAHAN લોગો)
+                pdf.setFillColor(13, 48, 60);
+                pdf.roundedRect(pageWidth / 2 - 60, 50, 120, 40, 6, 6, 'FD');
 
                 pdf.setTextColor(85, 195, 186); // Cyan
-                pdf.setFontSize(30);
+                pdf.setFontSize(32);
                 pdf.setFont("helvetica", "bold");
-                pdf.text("MAHAN®", pageWidth / 2, 77, { align: 'center' });
+                pdf.text("MAHAN", pageWidth / 2, 69, { align: 'center' });
 
                 pdf.setTextColor(255, 255, 255);
-                pdf.setFontSize(14);
-                pdf.text("The Institute Of English", pageWidth / 2, 88, { align: 'center' });
-
-                // Orange Outer Border
-                pdf.setDrawColor(255, 140, 0); 
-                pdf.setLineWidth(1.5);
-                pdf.rect(15, 15, pageWidth - 30, pageHeight - 30);
-
-                pdf.setFontSize(22);
-                pdf.text("International Spoken English & Grammar Book", pageWidth / 2, 160, { align: 'center' });
-                
                 pdf.setFontSize(13);
-                pdf.setTextColor(153, 214, 214);
-                pdf.text("Professional Course Material - Morbi, Gujarat", pageWidth / 2, 178, { align: 'center' });
+                pdf.text("The Institute Of English", pageWidth / 2, 81, { align: 'center' });
 
-                // --- ૨. Uploaded Pages with HD Logo & Clean Navy Blue Theme ---
+                // કવર ટાઇટલ - International Spoken English
+                pdf.setFontSize(26);
+                pdf.setTextColor(255, 255, 255);
+                pdf.text("International Spoken English", pageWidth / 2, 145, { align: 'center' });
+                
+                pdf.setFontSize(20);
+                pdf.setTextColor(85, 195, 186);
+                pdf.text("& Grammar Book", pageWidth / 2, 158, { align: 'center' });
+
+                pdf.setFontSize(13);
+                pdf.setTextColor(180, 220, 220);
+                pdf.text("Professional Course Material • Morbi, Gujarat, India", pageWidth / 2, 220, { align: 'center' });
+
+                // --- ૨. Uploaded Pages with HD Sharpness & Clean Navy Background ---
                 for (let i = 0; i < MahanStudio.pages.length; i++) {
                     pdf.addPage();
                     const pageData = MahanStudio.pages[i];
 
-                    // 1. ફુલ HD ક્લિનિંગ અને નેવી બ્લુ બેકગ્રાઉન્ડ કન્વર્ઝન
-                    const hdCleanImage = await convertToFullHDNavyThemeClean(pageData.originalImage);
+                    // ફુલ એચડી શાર્પનિંગ અને બેકગ્રાઉન્ડ કન્વર્ઝન
+                    const hdCleanImage = await convertToFullHDSharpImage(pageData.originalImage);
 
                     // આખા પેજનું બેકગ્રાઉન્ડ શુદ્ધ નેવી બ્લુ કરો (#092029)
                     pdf.setFillColor(9, 32, 41);
@@ -75,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setLineWidth(0.8);
                     pdf.rect(10, 10, pageWidth - 20, pageHeight - 20);
 
-                    // 2. Image 2 મુજબ ઉપર પિલ્લર આકારનું શાનદાર MAHAN HD લોગો બોક્સ
+                    // હેડર લોગો ('®' વગરનો શુદ્ધ પિલ્લર લોગો)
                     pdf.setDrawColor(85, 195, 186);
                     pdf.setLineWidth(0.5);
                     pdf.setFillColor(13, 48, 60);
@@ -84,13 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     pdf.setTextColor(85, 195, 186);
                     pdf.setFontSize(11);
                     pdf.setFont("helvetica", "bold");
-                    pdf.text("MAHAN®", pageWidth / 2 - 12, 21, { align: 'center' });
+                    pdf.text("MAHAN", pageWidth / 2 - 15, 23, { align: 'center' });
 
                     pdf.setTextColor(255, 255, 255);
                     pdf.setFontSize(8);
-                    pdf.text("The Institute Of English", pageWidth / 2 + 18, 21, { align: 'center' });
+                    pdf.text("The Institute Of English", pageWidth / 2 + 18, 23, { align: 'center' });
 
-                    // 3. ફુલ એચડી પ્રોસેસ્ડ ઈમેજ બરાબર વચ્ચે ફિટ કરો (સફેદ પ્રકાશ/શેડો સંપૂર્ણ ગાયબ)
+                    // પ્રોસેસ્ડ એચડી ઈમેજ બરાબર વચ્ચે ફિટ કરો
                     const imgWidth = 184;
                     const imgHeight = 238;
                     const imgX = (pageWidth - imgWidth) / 2;
@@ -98,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pdf.addImage(hdCleanImage, 'PNG', imgX, imgY, imgWidth, imgHeight);
 
-                    // 4. બોટમ ફૂટર લાઈન અને માત્ર સાચો પેજ નંબર (સુવિચાર સંપૂર્ણ હટાવી દીધેલ છે)
+                    // બોટમ ફૂટર લાઈન અને પેજ નંબર
                     pdf.setDrawColor(85, 195, 186);
                     pdf.line(15, pageHeight - 15, pageWidth - 15, pageHeight - 15);
 
@@ -109,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // --- ૩. Download PDF ---
-                pdf.save("MAHAN_FullHD_Professional_Book.pdf");
+                pdf.save("MAHAN_International_Spoken_Book.pdf");
                 alert("✅ તમારી MAHAN Full HD PDF ફાઈલ સફળતાપૂર્વક ડાઉનલોડ થઈ ગઈ છે!");
 
             } catch (error) {
@@ -120,15 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
 });
 
-// Helper Function: સફેદ બેકગ્રાઉન્ડ અને લાઈટ ફ્લેર (પ્રકાશ) હટાવીને ફુલ એચડી નેવી બ્લુ થીમ બનાવનાર ફંક્શન
-function convertToFullHDNavyThemeClean(imgSrc) {
+// Helper Function: હાઈ-એન્ડ ફુલ એચડી શાર્પનિંગ અને બેકગ્રાઉન્ડ ક્લિનિંગ
+function convertToFullHDSharpImage(imgSrc) {
     return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = () => {
             const canvas = document.createElement('canvas');
-            canvas.width = img.width * 2; // હાઈ રેઝોલ્યુશન (HD Zoom Fix)
-            canvas.height = img.height * 2;
+            canvas.width = img.width * 3; // ટ્રિપલ એચડી રેઝોલ્યુશન જેથી ઝૂમ કરવા પર પણ અક્ષરો ન ફાટે
+            canvas.height = img.height * 3;
             const ctx = canvas.getContext('2d');
 
             // બેકગ્રાઉન્ડમાં સચોટ MAHAN નેવી બ્લુ કલર ભરો (#092029)
@@ -142,7 +148,6 @@ function convertToFullHDNavyThemeClean(imgSrc) {
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imgData.data;
 
-            // પિક્સેલ ફિલ્ટરિંગ: સફેદ બેકગ્રાઉન્ડ અને નીચેનો પ્રકાશ/શેડો એકદમ સાફ કરીને નેવી બ્લુમાં મિક્સ કરો
             for (let i = 0; i < data.length; i += 4) {
                 const r = data[i];
                 const g = data[i+1];
@@ -150,16 +155,16 @@ function convertToFullHDNavyThemeClean(imgSrc) {
 
                 const avg = (r + g + b) / 3;
 
-                // જો બેકગ્રાઉન્ડ કે હળવો સફેદ પ્રકાશ હોય તો તેને નેવી બ્લુમાં ફેરવો
-                if (avg > 150) {
+                // સફેદ બેકગ્રાઉન્ડ અને પડછાયા/પ્રકાશને કાયમ માટે હટાવીને નેવી બ્લુ સાથે મિક્સ કરો
+                if (avg > 140) {
                     data[i] = 9;       // Red
                     data[i+1] = 32;    // Green
                     data[i+2] = 41;    // Blue
                 } else {
-                    // અક્ષરો અને બોર્ડરને એકદમ શાર્પ HD વ્હાઇટ બનાવો
-                    data[i] = 255;     // Red
-                    data[i+1] = 255;   // Green
-                    data[i+2] = 255;   // Blue
+                    // અક્ષરોને એકદમ ઘાટા અને શાર્પ સફેદ બનાવો
+                    data[i] = 255;     
+                    data[i+1] = 255;   
+                    data[i+2] = 255;   
                 }
             }
 
@@ -168,4 +173,4 @@ function convertToFullHDNavyThemeClean(imgSrc) {
         };
         img.src = imgSrc;
     });
-        }
+                        }
