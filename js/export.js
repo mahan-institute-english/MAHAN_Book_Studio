@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // કવર ટાઇટલ - International Spoken English
                 pdf.setFontSize(24);
                 pdf.setTextColor(255, 255, 255);
-                pdf.text("Spoken English", pageWidth / 2, 140, { align: 'center' });
+                pdf.text("Spoken English & Grammar Book", pageWidth / 2, 140, { align: 'center' });
                 
                 pdf.setFontSize(20);
                 pdf.setTextColor(85, 195, 186);
-                pdf.text("& Grammar Book", pageWidth / 2, 153, { align: 'center' });
+                pdf.text"By Haresh Makasana (30 Years Experienced Educator)", pageWidth / 2, 153, { align: 'center' });
 
                 pdf.setFontSize(13);
                 pdf.setTextColor(180, 220, 220);
