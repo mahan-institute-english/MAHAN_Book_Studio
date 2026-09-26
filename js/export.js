@@ -58,7 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 pdf.setFontSize(20);
                 pdf.setTextColor(85, 195, 186);
-                pdf.text("By Haresh Makasana (32 Years Experienced Educator)", pageWidth / 2, 153, { align: 'center' });
+                pdf.text("By Haresh Makasana", pageWidth / 2, 153, { align: 'center' });
+                pdf.text("(32 Years Experienced Educator)", pageWidth / 2, 153, { align: 'center' });
+                
 
                 pdf.setFontSize(13);
                 pdf.setTextColor(180, 220, 220);
